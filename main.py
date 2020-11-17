@@ -1,108 +1,76 @@
-class Cow:
-    def __init__(animal, name,  gender, weight):
+class Animal:
+    def __init__(animal, name, gender, weight=0, sound='classic'):
         animal.name = name
         animal.gender = gender
         animal.weight = weight
-        animal.sound = 'MOO'
+        animal.sound = sound
 
     def eat(animal, food):
         animal.weight += food
         print(f"{animal.name} ate 1 piece of food, it's weight now is {animal.weight}")
 
-    def milk(animal):
-        print(f'{animal.name} has been milked')
-
-    def say(animal, repeats = 1):
+    def say(animal, repeats=1):
         print(animal.sound * repeats)
 
 
-class Goat:
-    def __init__(animal, name,  gender, weight):
-        animal.name = name
-        animal.gender = gender
-        animal.weight = weight
-        animal.sound = 'Maa'
-
-    def eat(animal, food):
-        animal.weight += food
-        print(f"{animal.name} ate 1 piece of food, it's weight now is {animal.weight}")
-
-    def milk(animal):
-        print(f'{animal.name} has been milked')
-
-    def say(animal, repeats = 1):
-        print(animal.sound * repeats)
-
-
-class Hen:
-    def __init__(animal, name,  gender, weight, ):
-        animal.name = name
-        animal.gender = gender
-        animal.weight = weight
-        animal.sound = 'Cluck'
-
-    def eat(animal, food):
-        animal.weight += food
-        print(f"{animal.name} ate 1 piece of food, it's weight now is {animal.weight}")
-
-    def collect_eggs(animal):
-        print(f"{animal.name}'s eggs have been collected ")
-
-    def say(animal, repeats = 1):
-        print(animal.sound * repeats)
-
-
-class Goose:
-    def __init__(animal, name,  gender, weight, ):
-        animal.name = name
-        animal.gender = gender
-        animal.weight = weight
-        animal.sound = 'Honk'
-
-    def eat(animal, food):
-        animal.weight += food
-        print(f"{animal.name} ate 1 piece of food, it's weight now is {animal.weight}")
-
-    def collect_eggs(animal):
-        print(f"{animal.name}'s eggs have been collected ")
-
-    def say(animal, repeats = 1):
-        print(animal.sound * repeats)
-
-
-class Duck:
-    def __init__(animal, name,  gender, weight, ):
-        animal.name = name
-        animal.gender = gender
-        animal.weight = weight
-        animal.sound = 'Quack'
-
-    def eat(animal, food):
-        animal.weight += food
-        print(f"{animal.name} ate 1 piece of food, it's weight now is {animal.weight}")
-
-    def collect_eggs(animal):
-        print(f"{animal.name}'s eggs have been collected")
-
-    def say(animal, repeats = 1):
-        print(animal.sound * repeats)
-
-class Sheep:
+class Milkable(Animal):
     def __init__(animal, name, gender, weight):
-        animal.name = name
-        animal.gender = gender
-        animal.weight = weight
-        animal.sound = 'Cluck'
+        super().__init__(name, gender, weight)
 
-    def eat(animal, food):
-        animal.weight += food
-        print(f"{animal.name} ate 1 piece of food, it's weight now is {animal.weight}")
+    def milk(animal):
+        print(f'{animal.name} has been milked')
+
+
+class Cutable(Animal):
+    def __init__(animal, name, gender, weight):
+        super().__init__(name, gender, weight)
 
     def cut(animal):
         print(f"{animal.name} has been cut")
 
-    def say(animal, repeats = 1):
-        print(animal.sound * repeats)
+
+class EggCollectable(Animal):
+    def __init__(animal, name, gender, weight):
+        super().__init__(name, gender, weight)
+
+    def collect_eggs(animal):
+        print(f"{animal.name}'s eggs have been collected ")
+
+
+class Cow(Milkable):
+    def __init__(animal, name, gender, weight=0):
+        super().__init__(name, gender, weight)
+        animal.sound = 'MOO'
+
+
+class Goat(Milkable):
+    def __init__(animal, name, gender, weight=0):
+        super().__init__(name, gender, weight)
+        animal.sound = 'Maa'
+
+
+class Hen(EggCollectable):
+    def __init__(animal, name, gender, weight=0):
+        super().__init__(name, gender, weight)
+        animal.sound = 'Cluck'
+
+
+class Goose(EggCollectable):
+    def __init__(animal, name, gender, weight=0):
+        super().__init__(name, gender, weight)
+        animal.sound = 'Honk'
+
+
+class Duck(EggCollectable):
+    def __init__(animal, name, gender, weight=0):
+        super().__init__(name, gender, weight)
+        animal.sound = 'Quack'
+
+
+class Sheep(Cutable):
+    def __init__(animal, name, gender, weight=0):
+        super().__init__(name, gender, weight)
+        animal.sound = 'Baa'
 
 
 sery = Goose('Серый', 'male', 15)
@@ -117,11 +85,12 @@ kopita = Goat('Копыта', 'female', 62)
 kryakwa = Duck('Кряква', 'female', 7)
 max_weight = 0
 animal_list = [sery, bely, manka, barash, kudrya, koko, kuka, roga, kopita, kryakwa]
+
 for animal in animal_list:
     animal.eat(1)
-    if isinstance(animal, Cow) or isinstance(animal, Goat):
+    if isinstance(animal, Milkable):
         animal.milk()
-    elif isinstance(animal, Hen) or isinstance(animal, Goose) or isinstance(animal, Duck):
+    elif isinstance(animal, EggCollectable):
         animal.collect_eggs()
     else:
         animal.cut()
